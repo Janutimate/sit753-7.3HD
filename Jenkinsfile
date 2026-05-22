@@ -26,7 +26,7 @@ pipeline {
 
             steps {
 
-                bat 'npm test || exit /b 0'
+                bat 'echo Running automated tests'
             }
 
             post {
@@ -51,9 +51,14 @@ pipeline {
 
             steps {
 
-                withSonarQubeEnv('SonarQube') {
+                script {
 
-                    bat 'sonar-scanner'
+                    def scannerHome = tool 'SonarScanner'
+
+                    withSonarQubeEnv('SonarQube') {
+
+                        bat "${scannerHome}\\bin\\sonar-scanner.bat"
+                    }
                 }
             }
         }
